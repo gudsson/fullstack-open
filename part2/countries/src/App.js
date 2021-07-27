@@ -30,7 +30,11 @@ const DisplayCountry = ({ country }) => {
 }
 
 const CityWeather = ({ city }) => {
-  const [ weather, setWeather ] = useState({});
+  const [ weather, setWeather ] = useState({
+    location: { name: '' },
+    current: { temperature: '', weather_icons: [''], wind_speed: '', wind_dir: ''}
+  });
+
   useEffect(() => {
     let endpoint = encodeURI(`http://api.weatherstack.com/current?access_key=${api_key}&query=${city}`)
     console.log('effect')
@@ -42,10 +46,7 @@ const CityWeather = ({ city }) => {
         setWeather(response.data)
       })
   }, [city]);
-
-  if (Object.keys(weather).length === 0) {
-    return <></>
-  }
+  
 
   return (
     <>
