@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const Persons = ({ persons }) => {
   return (
     <>
       {persons.map(person => 
-        <Person key={person.name} person={person} />
+        <Person key={person.id} person={person} />
       )}
     </>
   )
@@ -57,7 +58,9 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
-  const [ persons, setPersons ] = useState([]) 
+  const [ persons, setPersons ] = useState([])
+  const [ noticeObj, setNoticeObj ] = useState(null)
+  // const [ successMessage, setSuccessMessage ] = useState(null)
 
   useEffect(() => {
     axios
@@ -81,19 +84,20 @@ const App = () => {
 
     let personObj = { name: newName, number: newNumber }
 
-    const isUniqueName = (name) => {
-      return persons.every(person => person.name.toLowerCase() !== name.toLowerCase())
+    const isUniqueName = (submittedName) => {
+      return persons.every(person => person.name.toLowerCase() !== submittedName.toLowerCase())
     }
 
     if (isUniqueName(newName)) {
-      setPersons(persons.concat(personObj))
-      setNewName('')
-      setNewNumber('')
 
       personService
-        .create()
+        .create(personObj)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          displayNotice({
+            responseType: 'success',
+            message: `Added ${personObj.name}`
+          })
           setNewName('')
           setNewNumber('')
         })
@@ -106,11 +110,17 @@ const App = () => {
           .update(id, personObj)
           .then(updatedPerson => {
             setPersons(persons.map(person => person.id !== +id ? person : updatedPerson))
+            displayNotice({
+              responseType: 'success',
+              message: `Updated ${personObj.name}`
+            })
           })
           .catch(error => {
-            alert(
-              `'${personObj.name}' was already deleted from server`
-            )
+            displayNotice({
+              responseType: 'error',
+              message: `'${personObj.name}' was already removed from server`
+            })
+
             setPersons(persons.filter(p => p.id !== +id))
           })
       }
@@ -126,11 +136,19 @@ const App = () => {
         setPersons(persons.filter(person => person.id !== +id))
       })
       .catch(error => {
-        alert(
-          `'${person.content}' was already deleted from server`
-        )
-        setPersons(persons.filter(person => person.id !== +id))
+        displayNotice({
+          responseType: 'error',
+          message: `'${person.name}' was already removed from server`
+        })
       })
+  }
+
+  const displayNotice = ({ responseType, message }) => {
+    setNoticeObj({ responseType, message })
+
+    setTimeout(() => {
+      setNoticeObj(null)
+    }, 5000)
   }
 
   const handleFilterChange = e => setFilter(e.target.value);
@@ -155,6 +173,7 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification noticeObj={noticeObj} />
 
       <Filter
         filter={filter}
