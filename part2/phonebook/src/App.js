@@ -60,11 +60,9 @@ const App = () => {
   const [ persons, setPersons ] = useState([]) 
 
   useEffect(() => {
-    console.log('effect')
     axios
       .get('http://localhost:3001/persons')
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }, [])
@@ -77,29 +75,46 @@ const App = () => {
       })
   }, [])
   
-  console.log('render', persons.length, 'persons')
 
   const addNewPerson = (event) => {
     event.preventDefault();
+
+    let personObj = { name: newName, number: newNumber }
 
     const isUniqueName = (name) => {
       return persons.every(person => person.name.toLowerCase() !== name.toLowerCase())
     }
 
     if (isUniqueName(newName)) {
-      setPersons(persons.concat({ name: newName, number: newNumber }))
+      setPersons(persons.concat(personObj))
       setNewName('')
       setNewNumber('')
 
       personService
-        .create({ name: newName, number: newNumber })
+        .create()
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
         })
 
-    } else alert(`${newName} is already added to phonebook`)
+    } else {
+      let result = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+      let id = persons.find(person => person.name.toLowerCase() === newName.toLowerCase()).id
+      if (result) {
+        personService
+          .update(id, personObj)
+          .then(updatedPerson => {
+            setPersons(persons.map(person => person.id !== +id ? person : updatedPerson))
+          })
+          .catch(error => {
+            alert(
+              `'${personObj.name}' was already deleted from server`
+            )
+            setPersons(persons.filter(p => p.id !== +id))
+          })
+      }
+    }
   }
 
   const deletePerson = id => {
@@ -117,7 +132,6 @@ const App = () => {
         setPersons(persons.filter(person => person.id !== +id))
       })
   }
-
 
   const handleFilterChange = e => setFilter(e.target.value);
   const handleNameChange = e => setNewName(e.target.value);
