@@ -12,7 +12,11 @@ const Persons = ({ persons }) => {
   )
 }
 
-const Person = ({ person }) => <>{person.name} {person.number}<br /></>
+const Person = ({ person }) => {
+  return (
+    <>{person.name} {person.number} <button value={person.id}>delete</button><br /></>
+  )
+}
 
 const Filter = ({ filter, handleClick }) => {
   return (
@@ -96,12 +100,38 @@ const App = () => {
         })
 
     } else alert(`${newName} is already added to phonebook`)
-
   }
+
+  const deletePerson = id => {
+    const person = persons.find(n => n.id === id)
+  
+    personService
+      .remove(id)
+      .then(returnedPerson => {
+        setPersons(persons.filter(person => person.id !== +id))
+      })
+      .catch(error => {
+        alert(
+          `'${person.content}' was already deleted from server`
+        )
+        setPersons(persons.filter(person => person.id !== +id))
+      })
+  }
+
 
   const handleFilterChange = e => setFilter(e.target.value);
   const handleNameChange = e => setNewName(e.target.value);
   const handleNumberChange = e => setNewNumber(e.target.value);
+
+  const handleDelete = e => {
+    e.preventDefault();
+    if (e.target.tagName === 'BUTTON') {
+      let id = e.target.value
+      let result = window.confirm(`Delete ${persons.find(p => p.id === +id).name} ?`)
+
+      if (result) deletePerson(id)
+    }
+  }
 
   const applyFilter = (persons) => {
     if (filter === '') return persons;
@@ -127,7 +157,9 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={applyFilter(persons)} />
+      <div onClick={handleDelete}>
+        <Persons persons={applyFilter(persons)} />
+      </div>
     </div>
     )
 }
