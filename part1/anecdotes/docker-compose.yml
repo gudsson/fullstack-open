@@ -1,0 +1,11 @@
+version: "3.5"
+
+services:
+  anecdotes:
+    build: .
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/usr/src/app/
+    container_name: anecdotes-container
+    command: npm start
