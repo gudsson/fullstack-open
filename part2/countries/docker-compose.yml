@@ -10,12 +10,12 @@ services:
     volumes:
       - .:/usr/src/app/
     command: npm start
-  server:
-    build:
-      context: .
-      dockerfile: dockerfile.db
-    volumes:
-      - ./db.json:/usr/src/app/db.json
-    ports:
-      - 3001:3001
-    command: npm run server
+  # server:
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfile.db
+  #   volumes:
+  #     - ./db.json:/usr/src/app/db.json
+  #   ports:
+  #     - 3001:3001
+  #   command: npm run server

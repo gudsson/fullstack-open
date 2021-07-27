@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const Countries = ({ countries, setFilter }) => {
+const Countries = ({ countries }) => {
   
   if (countries.length > 10) return <div>Too many matches, specify another filter</div>
   if (countries.length === 1) return <CountryInfo country={countries[0]}/>
@@ -11,7 +11,7 @@ const Countries = ({ countries, setFilter }) => {
     <>
       {countries.map(country => 
         <span key={country.numericCode}>
-          {country.name}<button onClick={() => setFilter(country.name)}>show</button><br />
+          {country.name}<button value={country.name}>show</button><br />
         </span>  
       )}
     </>
@@ -66,6 +66,13 @@ const App = () => {
 
   const handleFilterChange = e => setFilter(e.target.value);
 
+  const handleClick = e => {
+    e.preventDefault();
+    if (e.target.tagName === 'BUTTON') {
+      setFilter(e.target.value)
+    }
+  }
+
   const applyFilter = (countries) => {
     if (filter === '') return countries;
     return countries.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
@@ -80,7 +87,11 @@ const App = () => {
         handleClick={handleFilterChange}
       /><br />
 
-      {filter !== '' ? <Countries countries={applyFilter(countries)} setFilter={setFilter} /> : ''}
+      {filter !== '' &&
+        <span onClick={handleClick}>
+          <Countries countries={applyFilter(countries)}/>
+        </span>
+      }
       
     </div>
     );
