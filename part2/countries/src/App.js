@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
+const api_key = process.env.REACT_APP_API_KEY
+
 const Countries = ({ countries }) => {
   
   if (countries.length > 10) return <div>Too many matches, specify another filter</div>
-  if (countries.length === 1) return <CountryInfo country={countries[0]}/>
+  if (countries.length === 1) return <DisplayCountry country={countries[0]} />
   if (countries.length === 0) return <div>No matches, specify another filter</div>
 
   return (
@@ -18,12 +20,48 @@ const Countries = ({ countries }) => {
   )
 }
 
-const CountryInfo = ({ country }) => {
+const DisplayCountry = ({ country }) => {
+    return (
+      <div>
+        <CountryInfo country={country} />
+        <CityWeather city={country.capital} />
+      </div>
+    );
+}
+
+const CityWeather = ({ city }) => {
+  const [ weather, setWeather ] = useState({});
+  useEffect(() => {
+    let endpoint = encodeURI(`http://api.weatherstack.com/current?access_key=${api_key}&query=${city}`)
+    console.log('effect')
+
+    axios
+      .get(endpoint)
+      .then(response => {
+        console.log('promise fulfilled')
+        setWeather(response.data)
+      })
+  }, [city]);
+
+  if (Object.keys(weather).length === 0) {
+    return <></>
+  }
 
   return (
-    <div>
-      <h2>{country.name}</h2>
+    <>
+      <h3>Weather in {weather.location.name}</h3>
+      <strong>temperature:</strong> {weather.current.temperature} Celsius<br />
+      <img src={weather.current.weather_icons[0]} alt='weather icon' style={{height: "100px"}}></img><br />
+      <strong>wind:</strong> {weather.current.wind_speed} mph direction {weather.current.wind_dir}
+    </>
+  )
+}
 
+const CountryInfo = ({ country }) => {
+  return (
+    <>
+      <h2>{country.name}</h2>
+    
       <p>capital {country.capital}</p>
       <p>population {country.population}</p>
 
@@ -33,8 +71,8 @@ const CountryInfo = ({ country }) => {
       </ul>
 
       <img src={country.flag} alt='national flag' style={{height: "100px"}}></img>
-    </div>
-  );
+    </>
+  )
 }
 
 const Filter = ({ filter, handleClick }) => {
@@ -50,7 +88,7 @@ const Filter = ({ filter, handleClick }) => {
 
 const App = () => {
   const [ filter, setFilter ] = useState('')
-  const [ countries, setCountries ] = useState([]) 
+  const [ countries, setCountries ] = useState([])
 
   useEffect(() => {
     console.log('effect')
@@ -75,7 +113,7 @@ const App = () => {
 
   const applyFilter = (countries) => {
     if (filter === '') return countries;
-    return countries.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()));
+    return countries.filter(country => country.name.toLowerCase().includes(filter.toLowerCase()));
   }
 
   return (
@@ -89,7 +127,7 @@ const App = () => {
 
       {filter !== '' &&
         <span onClick={handleClick}>
-          <Countries countries={applyFilter(countries)}/>
+          <Countries countries={applyFilter(countries)} />
         </span>
       }
       
