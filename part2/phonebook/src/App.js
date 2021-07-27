@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import personService from './services/persons'
 
 const Persons = ({ persons }) => {
   return (
@@ -63,22 +64,39 @@ const App = () => {
         setPersons(response.data)
       })
   }, [])
+
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(savedPersons => {
+        setPersons(savedPersons)
+      })
+  }, [])
   
   console.log('render', persons.length, 'persons')
 
-
-  
-  const isUniqueName = (name) => {
-    return persons.every(person => person.name.toLowerCase() !== name.toLowerCase())
-  }
-
   const addNewPerson = (event) => {
     event.preventDefault();
+
+    const isUniqueName = (name) => {
+      return persons.every(person => person.name.toLowerCase() !== name.toLowerCase())
+    }
+
     if (isUniqueName(newName)) {
       setPersons(persons.concat({ name: newName, number: newNumber }))
       setNewName('')
       setNewNumber('')
+
+      personService
+        .create({ name: newName, number: newNumber })
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
+        })
+
     } else alert(`${newName} is already added to phonebook`)
+
   }
 
   const handleFilterChange = e => setFilter(e.target.value);
