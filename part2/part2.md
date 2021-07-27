@@ -11,3 +11,4 @@ Currently, JavaScript engines are *single-threaded*, which means that they canno
 **Altering data in server**
 
 the *then* method of a promise also [returns a promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then).
+
