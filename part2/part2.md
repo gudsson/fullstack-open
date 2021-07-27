@@ -8,3 +8,6 @@ Currently, JavaScript engines are *single-threaded*, which means that they canno
 
 *The Effect Hook lets you perform side effects in function components.* *Data fetching, setting up a subscription, and manually changing the DOM in React components are all examples of side effects.*
 
+**Altering data in server**
+
+the *then* method of a promise also [returns a promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then).
