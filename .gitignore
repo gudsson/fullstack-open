@@ -1,3 +1,13 @@
-./node_modules
+*/node_modules
 part2/countries/.env
 part2/tutorial/.env
+part1/anecdotes/node_modules
+part1/courseinfo/node_modules
+part1/unicafe/node_modules
+part2/countries/node_modules
+part2/courseinfo/node_modules
+part2/phonebook/node_modules
+part2/tutorial/node_modules
+part3/backend-tutorial/node_modules
+part3/phonebook-backend/node_modules
+part3/notes-frontend/node_modules
