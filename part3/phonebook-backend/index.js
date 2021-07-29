@@ -1,5 +1,6 @@
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
 
 let persons = [
@@ -25,8 +26,10 @@ let persons = [
   }
 ]
 
-app.use(express.json())
 
+app.use(cors())
+app.use(express.json())
+app.use(morgan(':method :url :status :response-time ms :body'))
 
 morgan.token('body', function (request, response) {
   if (Object.keys(request.body).length) {
@@ -34,7 +37,6 @@ morgan.token('body', function (request, response) {
   } else return ' ';
 });
 
-app.use(morgan(':method :url :status :response-time ms :body'))
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
