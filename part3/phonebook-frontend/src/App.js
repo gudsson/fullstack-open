@@ -100,6 +100,12 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+        .catch(error => {
+          displayNotice({
+            responseType: 'error',
+            message: error.response.data.error
+          })
+        })
 
     } else {
       let result = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
@@ -117,10 +123,8 @@ const App = () => {
           .catch(error => {
             displayNotice({
               responseType: 'error',
-              message: `'${personObj.name}' was already removed from phonebook`
+              message: error.response.data.error
             })
-
-            setPersons(persons.filter(p => p.id !== id))
           })
       }
     }
