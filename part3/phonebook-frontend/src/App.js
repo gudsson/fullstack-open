@@ -108,7 +108,7 @@ const App = () => {
         personService
           .update(id, personObj)
           .then(updatedPerson => {
-            setPersons(persons.map(person => person.id !== +id ? person : updatedPerson))
+            setPersons(persons.map(person => person.id !== id ? person : {...personObj, id: id}))
             displayNotice({
               responseType: 'success',
               message: `Updated ${personObj.name}`
@@ -120,7 +120,7 @@ const App = () => {
               message: `'${personObj.name}' was already removed from server`
             })
 
-            setPersons(persons.filter(p => p.id !== +id))
+            setPersons(persons.filter(p => p.id !== id))
           })
       }
     }
@@ -132,7 +132,7 @@ const App = () => {
     personService
       .remove(id)
       .then(returnedPerson => {
-        setPersons(persons.filter(person => person.id !== +id))
+        setPersons(persons.filter(person => person.id !== id))
       })
       .catch(error => {
         displayNotice({
@@ -158,7 +158,7 @@ const App = () => {
     e.preventDefault();
     if (e.target.tagName === 'BUTTON') {
       let id = e.target.value
-      let result = window.confirm(`Delete ${persons.find(p => p.id === +id).name} ?`)
+      let result = window.confirm(`Delete ${persons.find(p => p.id === id).name} ?`)
 
       if (result) deletePerson(id)
     }
