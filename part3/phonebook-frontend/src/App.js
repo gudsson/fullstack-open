@@ -108,7 +108,7 @@ const App = () => {
         personService
           .update(id, personObj)
           .then(updatedPerson => {
-            setPersons(persons.map(person => person.id !== id ? person : {...personObj, id: id}))
+            setPersons(persons.map(person => person.id !== id ? person : updatedPerson))
             displayNotice({
               responseType: 'success',
               message: `Updated ${personObj.name}`
@@ -117,7 +117,7 @@ const App = () => {
           .catch(error => {
             displayNotice({
               responseType: 'error',
-              message: `'${personObj.name}' was already removed from server`
+              message: `'${personObj.name}' was already removed from phonebook`
             })
 
             setPersons(persons.filter(p => p.id !== id))
@@ -133,11 +133,15 @@ const App = () => {
       .remove(id)
       .then(returnedPerson => {
         setPersons(persons.filter(person => person.id !== id))
+        displayNotice({
+          responseType: 'success',
+          message: `'${person.name}' was successfully removed from phonebook`
+        })
       })
       .catch(error => {
         displayNotice({
           responseType: 'error',
-          message: `'${person.name}' was already removed from server`
+          message: `'${person.name}' was already removed from phonebook`
         })
       })
   }
