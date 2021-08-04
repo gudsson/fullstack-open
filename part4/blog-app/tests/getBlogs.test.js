@@ -25,7 +25,16 @@ test('blogs are returned as json', async () => {
 test('all blogs are returned', async () => {
   const response = await api.get('/api/blogs')
 
+  console.log(response.body)
+
   expect(response.body).toHaveLength(helper.initialBlogs.length)
+})
+
+test('all ids are unique', async () => {
+  const blogs = await Blog.find({})
+  const idArr = blogs.map(blog => blog.id)
+
+  expect([...new Set(idArr)]).toHaveLength(idArr.length)
 })
 
 afterAll(() => {
