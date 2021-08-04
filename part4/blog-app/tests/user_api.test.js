@@ -1,9 +1,10 @@
-const bcrypt = require('bcrypt')
 const supertest = require('supertest')
+const mongoose = require('mongoose')
 const app = require('../app')
-const User = require('../models/user')
 const helper = require('./test_helper')
 const api = supertest(app)
+const User = require('../models/user')
+const bcrypt = require('bcrypt')
 
 describe('when there is initially one user in db', () => {
   beforeEach(async () => {
@@ -43,7 +44,7 @@ describe('when there is initially one user in db', () => {
     const newUser = {
       username: 'root',
       name: 'Superuser',
-      password: 'salainen',
+      password: 'dsafdasfs',
     }
 
     const result = await api
@@ -57,4 +58,82 @@ describe('when there is initially one user in db', () => {
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd).toHaveLength(usersAtStart.length)
   })
+
+  test('username.length < 3 fails', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'ab',
+      name: 'dsafds',
+      password: 'dsafdsaf',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+
+  test('empty username fails', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      name: 'dsafds',
+      password: 'abc',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+
+  test('password.length < 3 fails', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'abc',
+      name: 'dsafds',
+      password: 'ab',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+
+  test('empty password fails', async () => {
+    const usersAtStart = await helper.usersInDb()
+
+    const newUser = {
+      username: 'abc',
+      name: 'dsafds',
+    }
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(400)
+      .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd).toHaveLength(usersAtStart.length)
+  })
+})
+
+afterAll(() => {
+  mongoose.connection.close()
 })
