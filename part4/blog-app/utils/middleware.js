@@ -41,7 +41,8 @@ const tokenExtractor = (request, response, next) => {
 }
 
 const userExtractor = async (request, response, next) => {
-  if (request.url === '/api/login') {
+  if (request.url === '/api/login'
+    || (request.url === '/api/users' && request.method === 'POST')) {
     request.user = await User.findOne({ username: request.body.username })
   } else if (request.method === 'GET') {
     request.user = null

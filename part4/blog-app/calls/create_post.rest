@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imd1ZCIsImlkIjoiNjEwYWEwZDA1MjY0MTAyMTY2MzVlNmQ1IiwiaWF0IjoxNjI4MDk3MjY5fQ.rpi3t_brQXg9toKxXDc4QGQwD9UfgBeSlsjFcMAtrjk
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjYxMGFlZDgyODdlZDFhODBiYTc0YmNhZSIsImlhdCI6MTYyODEwNjQ2N30.CG9Z0YoL40OyLEaf7nrah7XO47B9bxGY4EOWtYef6UE
 
 {
-    "title": "post69",
-    "url": "dsfdsfasdf",
+    "title": "test3",
+    "url": "test.com/3",
     "likes": 4565,
-    "userId": "610aa0d0526410216635e6d5"
+    "userId": "610aebc41ea0a27ecbe45cca"
 }

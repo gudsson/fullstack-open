@@ -197,6 +197,7 @@ test('adding blog without token fails', async () => {
   const newBlog = {
     title: 'test title',
     url: 'www.test.com',
+    user: user.id,
     likes: 10.2
   }
 
