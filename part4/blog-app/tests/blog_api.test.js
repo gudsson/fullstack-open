@@ -3,11 +3,9 @@ const mongoose = require('mongoose')
 const app = require('../app')
 const helper = require('./test_helper')
 const api = supertest(app)
-const bcrypt = require('bcrypt')
 
 const Blog = require('../models/blog')
 const User = require('../models/user')
-
 
 beforeAll(async () => {
   await api.post('/api/users').send({
@@ -26,7 +24,6 @@ beforeEach(async () => {
   await Blog.deleteMany({})
 
   const user = await User.findOne({ username: 'root' })
-
 
   const blogObjects = helper.initialBlogs
     .map(blog => {
