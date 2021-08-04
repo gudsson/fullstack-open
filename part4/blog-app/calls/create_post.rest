@@ -3,6 +3,7 @@ Content-Type: application/json
 
 {
     "title": "Hello World",
-    "author": "Jay",
-    "url": "url"
+    "url": "url",
+    "likes": 5,
+    "userId": "610aa0d0526410216635e6d5"
 }
