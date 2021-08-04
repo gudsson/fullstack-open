@@ -3,14 +3,37 @@ const mongoose = require('mongoose')
 const app = require('../app')
 const helper = require('./test_helper')
 const api = supertest(app)
+const bcrypt = require('bcrypt')
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
+
+
+beforeAll(async () => {
+  await api.post('/api/users').send({
+    username: 'root',
+    name: 'root',
+    password: 'password'
+  })
+
+  await api.post('/api/login').send({
+    'username': 'root',
+    'password': 'password'
+  })
+})
 
 beforeEach(async () => {
   await Blog.deleteMany({})
 
+  const user = await User.findOne({ username: 'root' })
+
+
   const blogObjects = helper.initialBlogs
-    .map(blog => new Blog(blog))
+    .map(blog => {
+      let newBlog = new Blog(blog)
+      newBlog.user = user.id
+      return newBlog
+    })
   const promiseArray = blogObjects.map(blog => blog.save())
   await Promise.all(promiseArray)
 })
@@ -45,14 +68,19 @@ test('all blogs have a likes property', async () => {
 })
 
 test('missing title returns 400 bad request', async () => {
+  const user = await User.findOne({ username: 'root' })
+  const token = helper.logIn(user).token
+
   const newBlog = {
     author: 'author',
     url: 'www.test.com',
-    likes: 10.2
+    likes: 10.2,
+    user: user.id
   }
 
   await api
     .post('/api/blogs')
+    .set('Authorization', token)
     .send(newBlog)
     .expect(400)
 
@@ -61,15 +89,20 @@ test('missing title returns 400 bad request', async () => {
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 })
 
-test('missing title returns 400 bad request', async () => {
+test('missing url returns 400 bad request', async () => {
+  const user = await User.findOne({ username: 'root' })
+  const token = helper.logIn(user).token
+
   const newBlog = {
     title: 'test title',
     author: 'author',
-    likes: 10.2
+    likes: 10.2,
+    user: user.id
   }
 
   await api
     .post('/api/blogs')
+    .set('Authorization', token)
     .send(newBlog)
     .expect(400)
 
@@ -79,11 +112,17 @@ test('missing title returns 400 bad request', async () => {
 })
 
 test('a blog can be deleted', async () => {
+  const user = await User.findOne({ username: 'root' })
+  const token = helper.logIn(user).token
+
   const blogsAtStart = await helper.blogsInDb()
-  const blogToDelete = blogsAtStart[0]
+  const blogToDelete = blogsAtStart.find(blog => {
+    return blog.user.toString() === user._id.toString()
+  })
 
   await api
     .delete(`/api/blogs/${blogToDelete.id}`)
+    .set('Authorization', token)
     .expect(204)
 
   const blogsAtEnd = await helper.blogsInDb()
@@ -94,15 +133,22 @@ test('a blog can be deleted', async () => {
 })
 
 test('a blog can be updated', async () => {
+  const user = await User.findOne({ username: 'root' })
+  const token = helper.logIn(user).token
+
   const blogsAtStart = await helper.blogsInDb()
-  const blogToUpdate = blogsAtStart[0]
+  const blogToUpdate = blogsAtStart.find(blog => {
+    return blog.user.toString() === user._id.toString()
+  })
 
   const blog = {
+    title: 'new title',
     likes: 99
   }
 
   await api
     .put(`/api/blogs/${blogToUpdate.id}`)
+    .set('Authorization', token)
     .send(blog)
     .expect(200)
 
@@ -116,15 +162,18 @@ test('a blog can be updated', async () => {
 })
 
 test('a valid blog can be added', async () => {
+  const user = await User.findOne({ username: 'root' })
+  const token = helper.logIn(user).token
+
   const newBlog = {
     title: 'test title',
-    author: 'author',
     url: 'www.test.com',
     likes: 10.2
   }
 
   await api
     .post('/api/blogs')
+    .set('Authorization', token)
     .send(newBlog)
     .expect(200)
     .expect('Content-Type', /application\/json/)
@@ -137,9 +186,28 @@ test('a valid blog can be added', async () => {
   const url = blogsAtEnd.map(b => b.url)
   const likes = blogsAtEnd.map(b => b.likes)
   expect(title).toContain('test title')
-  expect(author).toContain('author')
+  expect(author).toContain(user.username)
   expect(url).toContain('www.test.com')
   expect(likes).toContain(10.2)
+})
+
+test('adding blog without token fails', async () => {
+  const user = await User.findOne({ username: 'root' })
+
+  const newBlog = {
+    title: 'test title',
+    url: 'www.test.com',
+    likes: 10.2
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(401)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
 })
 
 afterAll(() => {
