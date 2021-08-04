@@ -30,10 +30,11 @@ test('all blogs are returned', async () => {
   expect(response.body).toHaveLength(helper.initialBlogs.length)
 })
 
-test('all ids are unique', async () => {
+test('all ids are defined and unique', async () => {
   const blogs = await Blog.find({})
   const idArr = blogs.map(blog => blog.id)
 
+  idArr.forEach(id => expect(id).toBeDefined())
   expect([...new Set(idArr)]).toHaveLength(idArr.length)
 })
 
