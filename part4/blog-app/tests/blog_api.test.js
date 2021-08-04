@@ -38,6 +38,12 @@ test('all ids are defined and unique', async () => {
   expect([...new Set(idArr)]).toHaveLength(idArr.length)
 })
 
+test('all blogs have a likes property', async () => {
+  const blogs = await Blog.find({})
+  const likesArr = blogs.map(blog => blog.likes)
+  likesArr.forEach(likes => expect(likes).toBeDefined())
+})
+
 test('a valid blog can be added', async () => {
   const newBlog = {
     title: 'test title',

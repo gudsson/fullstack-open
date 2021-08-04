@@ -12,6 +12,11 @@ const initialBlogs = [
     'author': 'Jay',
     'url': 'url',
     'likes': 10
+  },
+  {
+    'title': 'Hello World',
+    'author': 'Jay',
+    'url': 'url'
   }
 ]
 
