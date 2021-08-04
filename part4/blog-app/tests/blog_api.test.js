@@ -44,6 +44,40 @@ test('all blogs have a likes property', async () => {
   likesArr.forEach(likes => expect(likes).toBeDefined())
 })
 
+test('missing title returns 400 bad request', async () => {
+  const newBlog = {
+    author: 'author',
+    url: 'www.test.com',
+    likes: 10.2
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+})
+
+test('missing title returns 400 bad request', async () => {
+  const newBlog = {
+    title: 'test title',
+    author: 'author',
+    likes: 10.2
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+})
+
 test('a valid blog can be added', async () => {
   const newBlog = {
     title: 'test title',
