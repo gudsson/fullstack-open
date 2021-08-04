@@ -2,19 +2,19 @@ const Blog = require('../models/blog')
 
 const initialBlogs = [
   {
-    'title': 'Hello World',
+    'title': 'test1',
     'author': 'Jay',
     'url': 'url',
     'likes': 10
   },
   {
-    'title': 'Hello World',
+    'title': 'test2',
     'author': 'Jay',
     'url': 'url',
     'likes': 10
   },
   {
-    'title': 'Hello World',
+    'title': 'test3',
     'author': 'Jay',
     'url': 'url'
   }
