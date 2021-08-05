@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import loginService from '../services/login'
 import blogsService from '../services/blogs'
 
-const LoginForm = ({ setUser, setErrorMessage }) => {
+const LoginForm = ({ user, setUser, setErrorMessage }) => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('')
 
@@ -30,6 +30,9 @@ const LoginForm = ({ setUser, setErrorMessage }) => {
     }
     console.log('logging in with', username, password)
   }
+
+  if (user !== null) return <></>
+
   return (
     <>
       <h2>login to application</h2>
