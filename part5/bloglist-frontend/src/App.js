@@ -7,8 +7,7 @@ import blogsService from './services/blogs'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [errorMessage, setErrorMessage] = useState(null)
-
+  const [bannerObj, setBannerObj] = useState(null)
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -26,20 +25,27 @@ const App = () => {
     }
   }, [])
 
+  const updateBanner = (banner) => {
+    setBannerObj(banner)
+    setTimeout(() => {
+      setBannerObj(null)
+    }, 5000)
+  }
+
   return (
     <div>
-      <Notification message={errorMessage} />
+      <Notification bannerObj={bannerObj} />
       <LoginForm
         user={user}
         setUser={setUser}
-        setErrorMessage={setErrorMessage}
+        updateBanner={updateBanner}
       />
       <Blogs
         user={user}
         setUser={setUser}
         blogs={blogs}
         setBlogs={setBlogs}
-        setErrorMessage={setErrorMessage}
+        updateBanner={updateBanner}
       />
     </div>
   )

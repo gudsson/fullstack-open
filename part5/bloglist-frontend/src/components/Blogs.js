@@ -3,7 +3,7 @@ import Blog from './Blog'
 import Logout from './Logout'
 import NewBlog from './NewBlog'
 
-const Blogs = ({ user, setUser, blogs, setBlogs, setErrorMessage }) => {
+const Blogs = ({ user, setUser, blogs, setBlogs, updateBanner }) => {
   if (!user) return <></>
 
   return (
@@ -12,7 +12,7 @@ const Blogs = ({ user, setUser, blogs, setBlogs, setErrorMessage }) => {
       <Logout user={user} setUser={setUser} />
 
       <h2>create new</h2>
-      <NewBlog user={user} setBlogs={setBlogs} setErrorMessage={setErrorMessage} />
+      <NewBlog user={user} setBlogs={setBlogs} updateBanner={updateBanner} />
 
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />

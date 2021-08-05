@@ -1,12 +1,14 @@
 import React from 'react'
 
-const Notification = ({ message }) => {
-  if (message === null) {
+const Notification = ({ bannerObj }) => {
+  if (bannerObj === null) {
     return null
   }
 
+  const { response, message } = bannerObj
+
   return (
-    <div className="error">
+    <div className={`notice ${response}`}>
       {message}
     </div>
   )
