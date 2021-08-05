@@ -1,11 +1,19 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
+import blogsService from '../services/blogs'
 import Blog from './Blog'
 import Logout from './Logout'
 import NewBlog from './NewBlog'
 import Togglable from './Togglable'
 
-const Blogs = ({ user, setUser, blogs, setBlogs, updateBanner }) => {
+const Blogs = ({ user, setUser, updateBanner }) => {
+  const [blogs, setBlogs] = useState([])
   const blogFormRef = useRef()
+
+  useEffect(() => {
+    blogsService.getAll().then(blogs =>
+      setBlogs( blogs )
+    )  
+  }, [])
   
   if (!user) return <></>
 
@@ -24,7 +32,7 @@ const Blogs = ({ user, setUser, blogs, setBlogs, updateBanner }) => {
       </Togglable>
 
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} user={user}/>
+        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
       )}
     </>
   )

@@ -5,15 +5,15 @@ import LoginForm from './components/LoginForm'
 import blogsService from './services/blogs'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  // const [blogs, setBlogs] = useState([])
   const [bannerObj, setBannerObj] = useState(null)
   const [user, setUser] = useState(null)
 
-  useEffect(() => {
-    blogsService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )  
-  }, [])
+  // useEffect(() => {
+  //   blogsService.getAll().then(blogs =>
+  //     setBlogs( blogs )
+  //   )  
+  // }, [])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -42,8 +42,8 @@ const App = () => {
       <Blogs
         user={user}
         setUser={setUser}
-        blogs={blogs}
-        setBlogs={setBlogs}
+        // blogs={blogs}
+        // setBlogs={setBlogs}
         updateBanner={updateBanner}
       />
     </div>
