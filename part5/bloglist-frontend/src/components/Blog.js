@@ -18,7 +18,8 @@ const Blog = ({ blog, setBlogs }) => {
 
   const addLike = async (event) => {
     await blogsService.update(blog.id, { likes: blog.likes + 1 })
-    setBlogs(await blogsService.getAll())
+    const blogs = await blogsService.getAll()
+    setBlogs(blogs)
   }
 
   return (
