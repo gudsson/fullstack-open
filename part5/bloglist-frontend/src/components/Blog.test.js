@@ -1,7 +1,6 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
-import { prettyDOM } from '@testing-library/dom'
 import Blog from './Blog'
 
 let blog
@@ -30,25 +29,8 @@ test('renders content', () => {
   expect(component.container).not.toHaveTextContent('test.com')
   expect(component.container).not.toHaveTextContent('4565')
 })
-// // method 2
-// const element = component.getByText(
-//   'Component testing is done with react-testing-library'
-// )
-// expect(element).toBeDefined()
 
-// // method 3
-// const div = component.container.querySelector('.note')
-// expect(div).toHaveTextContent(
-//   'Component testing is done with react-testing-library'
-// )
-
-// component.debug()
-// console.log(prettyDOM(div))
-
-
-test('clicking the button calls event handler once', () => {
-  // const mockHandler = jest.fn()
-
+test('url and likes are shown after clicking `show`', () => {
   const component = render(
     <Blog blog={blog} />
   )
