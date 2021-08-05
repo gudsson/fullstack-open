@@ -4,11 +4,12 @@ import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import blogsService from './services/blogs'
 
-
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [bannerObj, setBannerObj] = useState(null)
   const [user, setUser] = useState(null)
+
+
 
   useEffect(() => {
     blogsService.getAll().then(blogs =>

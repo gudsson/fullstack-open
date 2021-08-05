@@ -29,7 +29,7 @@ const LoginForm = ({ user, setUser, updateBanner }) => {
       })
     } catch (exception) {
       updateBanner({
-        response: 'failure',
+        response: 'error',
         message: 'Wrong credentials'
       })
     }

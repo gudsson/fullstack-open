@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import blogsService from '../services/blogs'
 
-const NewBlog = ({ user, setBlogs, updateBanner }) => {
+
+const NewBlog = ({ user, setBlogs, updateBanner, blogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  // const blogFormRef = useRef()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -28,9 +30,10 @@ const NewBlog = ({ user, setBlogs, updateBanner }) => {
       setAuthor('')
       setUrl('')
       setBlogs(blogs)
+      blogFormRef.current.toggleVisibility()
     } catch (exception) {
       updateBanner({
-        response: 'failure',
+        response: 'error',
         message: 'Could not add post'
       })
     }
@@ -39,6 +42,7 @@ const NewBlog = ({ user, setBlogs, updateBanner }) => {
 
   return (
     <div>
+      <h2>create new</h2>
       <form onSubmit={handleSubmit}>
         <div>
           title:
