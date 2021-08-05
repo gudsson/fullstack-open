@@ -24,7 +24,7 @@ const Blogs = ({ user, setUser, blogs, setBlogs, updateBanner }) => {
       </Togglable>
 
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} user={user}/>
       )}
     </>
   )
