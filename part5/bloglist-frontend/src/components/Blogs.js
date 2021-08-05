@@ -12,9 +12,9 @@ const Blogs = ({ user, setUser, updateBanner }) => {
   useEffect(() => {
     blogsService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
-  
+
   if (!user) return <></>
 
   return (

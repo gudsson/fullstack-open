@@ -1,9 +1,10 @@
+import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import loginService from '../services/login'
 import blogsService from '../services/blogs'
 
 const LoginForm = ({ user, setUser, updateBanner }) => {
-  const [username, setUsername] = useState('') 
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
   const handleLogin = async (event) => {
@@ -44,7 +45,7 @@ const LoginForm = ({ user, setUser, updateBanner }) => {
       <form onSubmit={handleLogin}>
         <div>
           username
-            <input
+          <input
             type="text"
             value={username}
             name="Username"
@@ -53,7 +54,7 @@ const LoginForm = ({ user, setUser, updateBanner }) => {
         </div>
         <div>
           password
-            <input
+          <input
             type="password"
             value={password}
             name="Password"
@@ -62,8 +63,14 @@ const LoginForm = ({ user, setUser, updateBanner }) => {
         </div>
         <button type="submit">login</button>
       </form>
-    </>    
+    </>
   )
+}
+
+LoginForm.propTypes = {
+  user: PropTypes.object.isRequired,
+  setUser: PropTypes.func.isRequired,
+  updateBanner: PropTypes.func.isRequired
 }
 
 export default LoginForm
