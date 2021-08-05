@@ -40,12 +40,12 @@ const NewBlog = ({ user, setBlogs, updateBanner, blogFormRef }) => {
   }
 
   return (
-    <div>
+    <div className="formDiv">
       <h2>create new</h2>
       <form onSubmit={handleSubmit}>
         <div>
           title:
-            <input
+          <input
             type="text"
             value={title}
             name="title"
@@ -54,7 +54,7 @@ const NewBlog = ({ user, setBlogs, updateBanner, blogFormRef }) => {
         </div>
         <div>
           author:
-            <input
+          <input
             type="text"
             value={author}
             name="author"
@@ -63,7 +63,7 @@ const NewBlog = ({ user, setBlogs, updateBanner, blogFormRef }) => {
         </div>
         <div>
           url:
-            <input
+          <input
             type="text"
             value={url}
             name="url"

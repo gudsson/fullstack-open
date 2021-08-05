@@ -40,7 +40,7 @@ const LoginForm = ({ user, setUser, updateBanner }) => {
   if (user !== null) return <></>
 
   return (
-    <>
+    <div className="formDiv">
       <h2>login to application</h2>
       <form onSubmit={handleLogin}>
         <div>
@@ -63,12 +63,11 @@ const LoginForm = ({ user, setUser, updateBanner }) => {
         </div>
         <button type="submit">login</button>
       </form>
-    </>
+    </div>
   )
 }
 
 LoginForm.propTypes = {
-  user: PropTypes.object.isRequired,
   setUser: PropTypes.func.isRequired,
   updateBanner: PropTypes.func.isRequired
 }

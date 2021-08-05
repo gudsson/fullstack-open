@@ -12,17 +12,17 @@ const Blog = ({ blog, setBlogs }) => {
     marginBottom: 5,
   }
 
-  const toggleVisibility = event => {
+  const toggleVisibility = () => {
     setVisible(!visible)
   }
 
-  const addLike = async (event) => {
+  const addLike = async () => {
     await blogsService.update(blog.id, { likes: blog.likes + 1 })
     const blogs = await blogsService.getAll()
     setBlogs(blogs)
   }
 
-  const removePost = async (event) => {
+  const removePost = async () => {
     const result = window.confirm(`remove blog '${blog.title}' by ${blog.author}`)
     if (result) {
       await blogsService.remove(blog.id)
@@ -31,16 +31,26 @@ const Blog = ({ blog, setBlogs }) => {
     }
   }
 
+  const showDetails = () => (
+    <div>
+      {blog.url}<br />
+      likes {blog.likes} <button onClick={addLike}>like</button><br />
+      {blog.user.name} <br />
+      <button onClick={removePost}>remove</button>
+    </div>
+  )
+
   return (
-    <div style={blogStyle}>
+    <div className='blog' style={blogStyle}>
       {blog.title} {blog.author}
       <button onClick={toggleVisibility}>{visible ? 'hide' : 'show'}</button><br />
-      <span style={visible ? {} : {display: 'none'}}>
+      {/* <span style={visible ? {} : { display: 'none' }}>
         {blog.url}<br />
         likes {blog.likes} <button onClick={addLike}>like</button><br />
         {blog.user.name} <br />
         <button onClick={removePost}>remove</button>
-      </span>
+      </span> */}
+      {visible && showDetails()}
     </div>
   )
 }
