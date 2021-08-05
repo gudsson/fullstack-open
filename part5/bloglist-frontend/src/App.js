@@ -9,8 +9,6 @@ const App = () => {
   const [bannerObj, setBannerObj] = useState(null)
   const [user, setUser] = useState(null)
 
-
-
   useEffect(() => {
     blogsService.getAll().then(blogs =>
       setBlogs( blogs )

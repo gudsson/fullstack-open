@@ -6,7 +6,6 @@ const NewBlog = ({ user, setBlogs, updateBanner, blogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
-  // const blogFormRef = useRef()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
