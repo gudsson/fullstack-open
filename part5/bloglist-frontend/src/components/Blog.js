@@ -22,6 +22,15 @@ const Blog = ({ blog, setBlogs }) => {
     setBlogs(blogs)
   }
 
+  const removePost = async (event) => {
+    const result = window.confirm(`remove blog '${blog.title}' by ${blog.author}`)
+    if (result) {
+      await blogsService.remove(blog.id)
+      const blogs = await blogsService.getAll()
+      setBlogs(blogs)
+    }
+  }
+
   return (
     <div style={blogStyle}>
       {blog.title} {blog.author}
@@ -29,7 +38,8 @@ const Blog = ({ blog, setBlogs }) => {
       <span style={visible ? {} : {display: 'none'}}>
         {blog.url}<br />
         likes {blog.likes} <button onClick={addLike}>like</button><br />
-        {blog.user.name}
+        {blog.user.name} <br />
+        <button onClick={removePost}>remove</button>
       </span>
     </div>
   )
