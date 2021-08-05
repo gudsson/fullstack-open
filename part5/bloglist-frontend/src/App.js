@@ -17,18 +17,41 @@ const App = () => {
     )  
   }, [])
 
-  if (user === null) {
-    <Notification message={errorMessage} />
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
 
+  const logout = (event) => {
+    event.preventDefault()
+    window.localStorage.removeItem('loggedBlogAppUser')
+    setUser(null)
+  }
+
+  if (user === null) {
+    
     return (
-      <LoginForm
-        setUser={setUser}
-        setErrorMessage={setErrorMessage}
-      />
+      <div>
+        <Notification message={errorMessage} />
+        <LoginForm
+          setUser={setUser}
+          setErrorMessage={setErrorMessage}
+        />
+      </div>
     )
   }
 
-  return <Blogs blogs={blogs} />
+  return (
+    <div>
+      <h2>blogs</h2>
+      <p>{user.name} <button onClick={logout}>logout</button></p>
+      <Blogs blogs={blogs}/>
+    </div>
+  )
 
 }
 
