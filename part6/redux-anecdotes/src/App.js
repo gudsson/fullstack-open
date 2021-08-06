@@ -4,9 +4,16 @@ import AnecdoteList from './components/AnecdoteList'
 import Notification from './components/Notification'
 
 const App = () => {
+  // const filterSelected = event => {
+  //   console.log(event.target.filterSelected.value)
+  // }
   return (
     <div>
       <Notification />
+      {/* <div>
+        filter <input type="text" name="filter"
+        onChange={filterSelected} />
+      </div> */}
       <AnecdoteList />
       <AnecdoteForm />
     </div>

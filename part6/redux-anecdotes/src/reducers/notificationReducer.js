@@ -1,39 +1,41 @@
-const notificationReducer = (state = '', action) => {
+const initialState = {
+  msg: '',
+  timerId: null
+}
+
+const notificationReducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
   switch (action.type) {
-    case 'SET':
-      return action.data
-    case 'REMOVE':
-      return ''
+    case 'SET_NOTICE':
+      clearTimeout(state.timerId)
+      return { ...state, msg: action.data }
+    case 'RECORD_TIMER':
+      return { ...state, timerId: action.data }
+    case 'REMOVE_NOTICE':
+      return initialState
     default:
       return state
   }
 }
 
-export const setNotification = (msg, timerId) => {
-  // return (dispatch) => {
-  //   dispatch({
-  //     type: 'SET',
-  //     data: msg
-  //   })
-  //   // setTimeout(() => {
-  //   //   dispatch({
-  //   //     type: 'REMOVE'
-  //   //   })
-  //   // }, seconds * 1000)
-  // }
-  // return {
-  //   type: 'SET',
-  //   data: msg
-  // }
-
+export const removeNotification = () => {
   return {
-    type: 'SET',
-    data: {
-      msg,
-      timerId
-    }
+    type: 'REMOVE_NOTICE'
+  }
+}
+
+export const setNotification = (msg) => {
+  return {
+    type: 'SET_NOTICE',
+    data: msg
+  }
+}
+
+export const recordTimer = (timerId) => {
+  return {
+    type: 'RECORD_TIMER',
+    data: timerId
   }
 }
 
