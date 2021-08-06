@@ -31,8 +31,17 @@ const anecdoteReducer = (state = [], action) => {
       let newState = [...state]
       newState[anecdoteIdx] = newObject
       return newState.sort((a, b) => b.votes - a.votes)
+    case 'INIT_ANECDOTES':
+      return action.data
     default:
       return state
+  }
+}
+
+export const initializeAnecdotes = (anecdotes) => {
+  return {
+    type: 'INIT_ANECDOTES',
+    data: anecdotes.sort((a, b) => b.votes - a.votes)
   }
 }
 
