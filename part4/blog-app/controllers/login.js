@@ -1,11 +1,12 @@
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const loginRouter = require('express').Router()
+const User = require('../models/user')
 
 loginRouter.post('/', async (request, response) => {
   const body = request.body
+  const user = User.findOne({ username: request.body.username })
 
-  const user = request.user
   const passwordCorrect = user === null
     ? false
     : await bcrypt.compare(body.password, user.passwordHash)
