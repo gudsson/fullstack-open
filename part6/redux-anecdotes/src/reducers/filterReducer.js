@@ -2,7 +2,7 @@ const filterReducer = (state = '', action) => {
   console.log(action)
   switch (action.type) {
     case 'SET_FILTER':
-      return action.filter
+      return action.data
     default:
       return state
   }
