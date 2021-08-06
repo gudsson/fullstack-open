@@ -4,7 +4,6 @@ import { vote } from '../reducers/anecdoteReducer'
 import { setNotification, recordTimer, removeNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = () => {
-  // const anecdotes = useSelector(state => state.anecdotes)
   const anecdotes = useSelector(({ filter, anecdotes }) => {
     if ( filter === '') return anecdotes
     return anecdotes.filter(anecdote => {

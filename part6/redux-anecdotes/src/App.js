@@ -2,6 +2,7 @@ import React from 'react'
 import AnecdoteForm from './components/AnecdoteForm'
 import AnecdoteList from './components/AnecdoteList'
 import Notification from './components/Notification'
+import Filter from './components/Filter'
 import { useDispatch } from 'react-redux'
 import { filterChange } from './reducers/filterReducer'
 
@@ -13,14 +14,10 @@ const App = () => {
     dispatch(filterChange(event.target.value))
   }
 
-  // dispatch(createAnecdote(anecdote))
   return (
     <div>
       <Notification />
-      <div>
-        filter <input type="text" name="filter"
-        onChange={filterSelected} />
-      </div>
+      <Filter />
       <AnecdoteList />
       <AnecdoteForm />
     </div>
