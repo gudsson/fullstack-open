@@ -34,7 +34,7 @@ const Blog = ({ blog, setBlogs }) => {
   const showDetails = () => (
     <div>
       {blog.url}<br />
-      likes {blog.likes} <button onClick={addLike}>like</button><br />
+      likes <span className='likes'>{blog.likes}</span> <button className='like-btn' onClick={addLike}>like</button><br />
       {blog.user.name} <br />
       <button onClick={removePost}>remove</button>
     </div>
@@ -43,13 +43,7 @@ const Blog = ({ blog, setBlogs }) => {
   return (
     <div className='blog' style={blogStyle}>
       {blog.title} {blog.author}
-      <button onClick={toggleVisibility}>{visible ? 'hide' : 'show'}</button><br />
-      {/* <span style={visible ? {} : { display: 'none' }}>
-        {blog.url}<br />
-        likes {blog.likes} <button onClick={addLike}>like</button><br />
-        {blog.user.name} <br />
-        <button onClick={removePost}>remove</button>
-      </span> */}
+      <button className='show-btn' onClick={toggleVisibility}>{visible ? 'hide' : 'show'}</button><br />
       {visible && showDetails()}
     </div>
   )

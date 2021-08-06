@@ -43,17 +43,54 @@ describe('Blog app', function() {
       cy.get('#username').type('gudsson')
       cy.get('#password').type('password')
       cy.get('#login-btn').click()
-    })
 
-    it('A blog can be created', function() {
       cy.contains('create new blog').click()
+
       cy.get('#title').type('new blog')
       cy.get('#author').type('authorName')
       cy.get('#url').type('www.test.com')
       cy.get('#submit-btn').click()
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('create new blog').click()
+
+      cy.get('#title').type('new blog2')
+      cy.get('#author').type('authorName2')
+      cy.get('#url').type('www.test2.com')
+      cy.get('#submit-btn').click()
 
       cy.get('.notice').should('contain', 'a new blog')
-      cy.get('.blogs').find('.blog').should('have.length', 1)
+      cy.get('.blogs').find('.blog').should('have.length', 2)
     })
+
+    it('A created blog can be liked', function() {
+
+      cy.get('.blog').first().find('.show-btn').click()
+      cy.get('.blog').first().find('.like-btn').click()
+
+      cy.get('.blog').first().find('.likes').should('contain', '1')
+    })
+
   })
+
+  // will keep text from title element
+  // let titleText
+
+  // cy.get('.company-details')
+  //   .find('.title')
+  //   .then(($title) => {
+  //     // save text from the first element
+  //     titleText = $title.text(); //original uses normalizeText($title.text())
+  //   })
+
+  // cy.get('.company-details')
+  //   .find('.identifier')
+  //   .should(($identifier) => {
+  //     // we can massage text before comparing
+  //     const idText = $identifier.text(); //original uses normalizeText($identifier.text())
+
+  //     // text from the title element should already be set
+  //     expect(idText, 'ID').to.equal(titleText)
+  //   })
 })
