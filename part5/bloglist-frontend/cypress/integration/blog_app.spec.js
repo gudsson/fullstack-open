@@ -64,12 +64,21 @@ describe('Blog app', function() {
       cy.get('.blogs').find('.blog').should('have.length', 2)
     })
 
-    it('A created blog can be liked', function() {
+    it('A blog can be deleted', function() {
 
       cy.get('.blog').first().find('.show-btn').click()
       cy.get('.blog').first().find('.like-btn').click()
 
       cy.get('.blog').first().find('.likes').should('contain', '1')
+    })
+
+    it('A blog can be deleted', function() {
+      cy.get('.blog').first().find('.show-btn').click()
+      cy.get('.blog').first().find('.remove-btn').click()
+
+      cy.on('window:confirm', () => true)
+
+      cy.get('.blogs').find('.blog').should('have.length', 0)
     })
 
   })
