@@ -30,7 +30,7 @@ const reducer = (state = initialState, action) => {
       let newObject = {...state[anecdoteIdx], votes: state[anecdoteIdx].votes + 1}
       let newState = [...state]
       newState[anecdoteIdx] = newObject
-      return newState
+      return newState.sort((a, b) => b.votes - a.votes)
     default:
       return state
   }
