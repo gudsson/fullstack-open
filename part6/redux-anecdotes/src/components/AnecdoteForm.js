@@ -11,10 +11,10 @@ const AnecdoteForm = () => {
     event.preventDefault()
     const anecdote = event.target.anecdote.value
     event.target.anecdote.value = ''
-    const newAnecdote = await anecdoteService.createNew(anecdote)
-    dispatch(createAnecdote(newAnecdote))
-    dispatch(setNotification(`added '${anecdote}'`))
-    dispatch(recordTimer(setTimeout(() => dispatch(removeNotification()), 5000)))
+    // const newAnecdote = await anecdoteService.createNew(anecdote)
+    dispatch(createAnecdote(anecdote))
+    // dispatch(setNotification(`added '${anecdote}'`))
+    // dispatch(recordTimer(setTimeout(() => dispatch(removeNotification()), 5000)))
   }
 
   return (
