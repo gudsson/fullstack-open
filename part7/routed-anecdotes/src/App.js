@@ -23,11 +23,21 @@ const Menu = () => {
   )
 }
 
+const Anecdote = ({anecdote}) => (
+  <div>
+    <h2>{`${anecdote.content} by ${anecdote.author}`}</h2>
+    <p>has {anecdote.votes} votes</p>
+    <p>for more info see <a href={anecdote.info}>{anecdote.info}</a></p>
+  </div>
+)
+
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => 
+        <li key={anecdote.id} ><a href={`/anecdotes/${anecdote.id}`}>{anecdote.content}</a></li>
+      )}
     </ul>
   </div>
 )
@@ -113,6 +123,7 @@ const App = () => {
 
   const [notification, setNotification] = useState('')
 
+
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
@@ -120,6 +131,11 @@ const App = () => {
 
   const anecdoteById = (id) =>
     anecdotes.find(a => a.id === id)
+
+  const match = useRouteMatch('/anecdotes/:id')
+  const anecdote = match
+    ? anecdoteById(match.params.id) : null
+
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
@@ -136,8 +152,11 @@ const App = () => {
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
-      
+
       <Switch>
+        <Route path="/anecdotes/:id">
+          <Anecdote anecdote={anecdote} />
+        </Route>
         <Route path="/create">
           <CreateNew addNew={addNew} />
         </Route>
