@@ -19,20 +19,23 @@ const notificationReducer = (state = initialState, action) => {
   }
 }
 
-export const removeNotification = () => {
+export const setNotification = (msg) => {
+  return async dispatch => {
+    dispatch({
+      type: 'SET_NOTICE',
+      data: msg
+    })
+    dispatch(recordTimer(setTimeout(() => dispatch(removeNotification()), 5000)))
+  }
+}
+
+const removeNotification = () => {
   return {
     type: 'REMOVE_NOTICE'
   }
 }
 
-export const setNotification = (msg) => {
-  return {
-    type: 'SET_NOTICE',
-    data: msg
-  }
-}
-
-export const recordTimer = (timerId) => {
+const recordTimer = (timerId) => {
   return {
     type: 'RECORD_TIMER',
     data: timerId

@@ -1,5 +1,5 @@
 import anecdoteService from "../services/anecdotes"
-import { setNotification, recordTimer, removeNotification } from "./notificationReducer"
+import { setNotification } from "./notificationReducer"
 
 const anecdoteReducer = (state = [], action) => {
   console.log('state now: ', state)
@@ -38,7 +38,6 @@ export const createAnecdote = (anecdote) => {
       data: newAnecdote
     })
     dispatch(setNotification(`added '${anecdote}'`))
-    dispatch(recordTimer(setTimeout(() => dispatch(removeNotification()), 5000)))
   }
 }
 
