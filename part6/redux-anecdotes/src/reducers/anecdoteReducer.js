@@ -41,10 +41,18 @@ export const createAnecdote = (anecdote) => {
   }
 }
 
-export const vote = (id) => {
-  return {
-    type: 'INCREMENT_VOTES',
-    data: { id }
+export const vote = (anecdote) => {
+  // return {
+  //   type: 'INCREMENT_VOTES',
+  //   data: { id }
+  // }
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.addVote(anecdote)
+    dispatch({
+      type: 'INCREMENT_VOTES',
+      data: { id: anecdote.id }
+    })
+    dispatch(setNotification(`you voted for '${anecdote.content}'`))
   }
 }
 

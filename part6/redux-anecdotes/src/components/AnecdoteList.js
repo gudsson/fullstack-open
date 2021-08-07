@@ -16,8 +16,8 @@ const AnecdoteList = () => {
   const dispatch = useDispatch()
 
   const addVote = anecdote => {
-    dispatch(vote(anecdote.id))
-    dispatch(setNotification(`you voted for '${anecdote.content}'`))
+    dispatch(vote(anecdote))
+    // dispatch(setNotification(`you voted for '${anecdote.content}'`))
   }
   
   return (
