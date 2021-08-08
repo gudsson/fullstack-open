@@ -5,7 +5,7 @@ import LoginForm from './components/LoginForm'
 import blogsService from './services/blogs'
 
 const App = () => {
-  const [bannerObj, setBannerObj] = useState(null)
+  // const [bannerObj, setBannerObj] = useState(null)
   const [user, setUser] = useState(null)
 
   useEffect(() => {
@@ -17,25 +17,26 @@ const App = () => {
     }
   }, [])
 
-  const updateBanner = (banner) => {
-    setBannerObj(banner)
-    setTimeout(() => {
-      setBannerObj(null)
-    }, 5000)
-  }
+  // const updateBanner = (banner) => {
+  //   setBannerObj(banner)
+  //   setTimeout(() => {
+  //     setBannerObj(null)
+  //   }, 5000)
+  // }
 
   return (
     <div>
-      <Notification bannerObj={bannerObj} />
+      {/* <Notification bannerObj={bannerObj} /> */}
+      <Notification />
       <LoginForm
         user={user}
         setUser={setUser}
-        updateBanner={updateBanner}
+        // updateBanner={updateBanner}
       />
       <Blogs
         user={user}
         setUser={setUser}
-        updateBanner={updateBanner}
+        // updateBanner={updateBanner}
       />
     </div>
   )

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import blogsService from '../services/blogs'
 
 
-const NewBlog = ({ user, setBlogs, updateBanner, blogFormRef }) => {
+const NewBlog = ({ user, setBlogs, blogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -20,10 +20,10 @@ const NewBlog = ({ user, setBlogs, updateBanner, blogFormRef }) => {
 
       await blogsService.create(blog)
       const blogs = await blogsService.getAll()
-      updateBanner({
-        response: 'success',
-        message: `a new blog '${title}' by ${author} added`
-      })
+      // updateBanner({
+      //   response: 'success',
+      //   message: `a new blog '${title}' by ${author} added`
+      // })
 
       setTitle('')
       setAuthor('')
@@ -31,10 +31,11 @@ const NewBlog = ({ user, setBlogs, updateBanner, blogFormRef }) => {
       setBlogs(blogs)
       blogFormRef.current.toggleVisibility()
     } catch (exception) {
-      updateBanner({
-        response: 'error',
-        message: 'Could not add post'
-      })
+      // updateBanner({
+      //   response: 'error',
+      //   message: 'Could not add post'
+      // })
+      console.log('could not add post')
     }
     console.log(user.name, 'adding blog post', title)
   }

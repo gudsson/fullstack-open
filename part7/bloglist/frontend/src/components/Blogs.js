@@ -5,7 +5,7 @@ import Logout from './Logout'
 import NewBlog from './NewBlog'
 import Togglable from './Togglable'
 
-const Blogs = ({ user, setUser, updateBanner }) => {
+const Blogs = ({ user, setUser }) => {
   const [blogs, setBlogs] = useState([])
   const blogFormRef = useRef()
 
@@ -26,7 +26,7 @@ const Blogs = ({ user, setUser, updateBanner }) => {
         <NewBlog
           user={user}
           setBlogs={setBlogs}
-          updateBanner={updateBanner}
+          // updateBanner={updateBanner}
           blogFormRef={blogFormRef}
         />
       </Togglable>
