@@ -20,23 +20,12 @@ const useCountry = (name) => {
 
   useEffect(() => {
     if (name) {
-      axios.get(`https://restcountries.eu/rest/v2/name/${name}?fullText=false`)
+      axios.get(`https://restcountries.eu/rest/v2/name/${name}?fullText=true`)
         .then(response => {
-          console.log(response.data[0])
-          // (response.data[0] === undefined)
-          // ? setCountry({ found: false })
           setCountry({ found: true, data: response.data[0]})
-          console.log(country)
         })
         .catch(() => setCountry({ found: false }))
     }
-    // const getData = async () => {
-    //   const response = await axios.get(`https://restcountries.eu/rest/v2/name/${country}?fullText=false`)
-    //   (response.data[0] === undefined)
-    //     ? setCountry({ found: false })
-    //     : setCountry({ found: true, ...response.data[0]})
-    // }
-    // getData()
     }, [name])
 
   return country
