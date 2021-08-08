@@ -72,19 +72,13 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  // const [content, setContent] = useState('')
   const content = useField('content')
   const author = useField('author')
   const info = useField('info')
-  // const [author, setAuthor] = useState('')
-  // const [info, setInfo] = useState('')
   const history = useHistory()
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(content.value)
-    console.log(author.value)
-    console.log(info.value)
     props.addNew({
       content: content.value,
       author: author.value,
@@ -96,6 +90,12 @@ const CreateNew = (props) => {
     setTimeout(() => props.setNotification(''), 10 * 1000)
   }
 
+  const clearFields = (e) => {
+    e.preventDefault()
+    const fields = [content, author, info]
+    fields.forEach(field => field.reset())
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -103,19 +103,17 @@ const CreateNew = (props) => {
         <div>
           content
           <input {...content} />
-          {/* <input name='content' value={content} onChange={(e) => setContent(e.target.value)} /> */}
         </div>
         <div>
           author
           <input {...author} />
-          {/* <input name='author' value={author} onChange={(e) => setAuthor(e.target.value)} /> */}
         </div>
         <div>
           url for more info
           <input {...info} />
-          {/* <input name='info' value={info} onChange={(e)=> setInfo(e.target.value)} /> */}
         </div>
         <button>create</button>
+        <button onClick={clearFields}>reset</button>
       </form>
     </div>
   )
