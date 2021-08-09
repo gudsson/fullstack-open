@@ -23,8 +23,6 @@ const Blog = ({ blog, setBlogs }) => {
 
   const addLike = async () => {
     await blogsService.update(blog.id, { likes: blog.likes + 1 })
-    // const blogs = await blogsService.getAll()
-    // setBlogs(blogs)
     dispatch(vote(blog.id))
     dispatch(setNotification(`added like to '${blog.title}' by ${blog.author}`, 'success', 5))
   }
