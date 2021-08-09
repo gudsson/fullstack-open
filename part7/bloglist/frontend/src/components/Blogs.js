@@ -4,7 +4,7 @@ import Blog from './Blog'
 import NewBlog from './NewBlog'
 import Togglable from './Togglable'
 
-const Blogs = ({ user }) => {
+const Blogs = () => {
   const blogFormRef = useRef()
 
   const blogs = useSelector(state => state.blogs)
@@ -17,7 +17,6 @@ const Blogs = ({ user }) => {
 
       <Togglable buttonLabel='create new blog' ref={blogFormRef}>
         <NewBlog
-          user={user}
           blogFormRef={blogFormRef}
         />
       </Togglable>
