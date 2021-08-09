@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import blogsService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
+import { vote } from '../reducers/blogsReducer'
 import { useDispatch } from 'react-redux'
 
 const Blog = ({ blog, setBlogs }) => {
@@ -22,8 +23,9 @@ const Blog = ({ blog, setBlogs }) => {
 
   const addLike = async () => {
     await blogsService.update(blog.id, { likes: blog.likes + 1 })
-    const blogs = await blogsService.getAll()
-    setBlogs(blogs)
+    // const blogs = await blogsService.getAll()
+    // setBlogs(blogs)
+    dispatch(vote(blog.id))
     dispatch(setNotification(`added like to '${blog.title}' by ${blog.author}`, 'success', 5))
   }
 

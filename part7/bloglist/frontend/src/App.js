@@ -3,9 +3,12 @@ import Blogs from './components/Blogs'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import blogsService from './services/blogs'
+import { initializeBlogs } from './reducers/blogsReducer'
+import { useDispatch } from 'react-redux'
 
 const App = () => {
   const [user, setUser] = useState(null)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser')
@@ -15,6 +18,11 @@ const App = () => {
       blogsService.setToken(user.token)
     }
   }, [])
+
+
+  useEffect(() => {
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   return (
     <div>
