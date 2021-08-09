@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import blogsService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
-import { vote } from '../reducers/blogsReducer'
+import { like, removeBlog } from '../reducers/blogsReducer'
 import { useDispatch } from 'react-redux'
 
-const Blog = ({ blog, setBlogs }) => {
+const Blog = ({ blog }) => {
+// const Blog = ({ blog, setBlogs }) => {
   const [visible, setVisible] = useState(false)
 
   const dispatch = useDispatch()
@@ -23,16 +24,17 @@ const Blog = ({ blog, setBlogs }) => {
 
   const addLike = async () => {
     await blogsService.update(blog.id, { likes: blog.likes + 1 })
-    dispatch(vote(blog.id))
+    dispatch(like(blog.id))
     dispatch(setNotification(`added like to '${blog.title}' by ${blog.author}`, 'success', 5))
   }
 
   const removePost = async () => {
     const result = window.confirm(`remove blog '${blog.title}' by ${blog.author}`)
     if (result) {
-      await blogsService.remove(blog.id)
-      const blogs = await blogsService.getAll()
-      setBlogs(blogs)
+      // await blogsService.remove(blog)
+      dispatch(removeBlog(blog))
+      // const blogs = await blogsService.getAll()
+      // setBlogs(blogs)
     }
   }
 
