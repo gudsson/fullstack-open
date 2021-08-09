@@ -26,7 +26,6 @@ const Blogs = ({ user, setUser }) => {
         <NewBlog
           user={user}
           setBlogs={setBlogs}
-          // updateBanner={updateBanner}
           blogFormRef={blogFormRef}
         />
       </Togglable>

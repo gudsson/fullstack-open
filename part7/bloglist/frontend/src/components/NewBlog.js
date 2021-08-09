@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import blogsService from '../services/blogs'
-
+import { setNotification } from '../reducers/notificationReducer'
+import { useDispatch } from 'react-redux'
 
 const NewBlog = ({ user, setBlogs, blogFormRef }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  const dispatch = useDispatch()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -20,10 +23,7 @@ const NewBlog = ({ user, setBlogs, blogFormRef }) => {
 
       await blogsService.create(blog)
       const blogs = await blogsService.getAll()
-      // updateBanner({
-      //   response: 'success',
-      //   message: `a new blog '${title}' by ${author} added`
-      // })
+      dispatch(setNotification(`a new blog '${title}' by ${author} added`, 'success', 5))
 
       setTitle('')
       setAuthor('')
@@ -31,11 +31,7 @@ const NewBlog = ({ user, setBlogs, blogFormRef }) => {
       setBlogs(blogs)
       blogFormRef.current.toggleVisibility()
     } catch (exception) {
-      // updateBanner({
-      //   response: 'error',
-      //   message: 'Could not add post'
-      // })
-      console.log('could not add post')
+      dispatch(setNotification('could not add post', 'failure', 5))
     }
     console.log(user.name, 'adding blog post', title)
   }

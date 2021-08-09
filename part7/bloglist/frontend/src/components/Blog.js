@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import blogsService from '../services/blogs'
+import { setNotification } from '../reducers/notificationReducer'
+import { useDispatch } from 'react-redux'
 
 const Blog = ({ blog, setBlogs }) => {
   const [visible, setVisible] = useState(false)
+
+  const dispatch = useDispatch()
 
   const blogStyle = {
     paddingTop: 10,
@@ -20,6 +24,7 @@ const Blog = ({ blog, setBlogs }) => {
     await blogsService.update(blog.id, { likes: blog.likes + 1 })
     const blogs = await blogsService.getAll()
     setBlogs(blogs)
+    dispatch(setNotification(`added like to '${blog.title}' by ${blog.author}`, 'success', 5))
   }
 
   const removePost = async () => {

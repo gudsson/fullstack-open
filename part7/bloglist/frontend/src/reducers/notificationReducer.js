@@ -1,5 +1,6 @@
 const initialState = {
   msg: '',
+  msgType: null,
   timerId: null
 }
 
@@ -9,7 +10,7 @@ const notificationReducer = (state = initialState, action) => {
   switch (action.type) {
   case 'SET_NOTICE':
     clearTimeout(state.timerId)
-    return { ...state, msg: action.data }
+    return { ...action.data }
   case 'RECORD_TIMER':
     return { ...state, timerId: action.data }
   case 'REMOVE_NOTICE':
@@ -19,11 +20,15 @@ const notificationReducer = (state = initialState, action) => {
   }
 }
 
-export const setNotification = (msg, seconds) => {
+export const setNotification = (msg, msgType, seconds) => {
   return async dispatch => {
     dispatch({
       type: 'SET_NOTICE',
-      data: msg
+      data: {
+        msg,
+        msgType,
+        timerId: null
+      }
     })
     dispatch(recordTimer(setTimeout(() => dispatch(removeNotification()), seconds * 1000)))
   }
