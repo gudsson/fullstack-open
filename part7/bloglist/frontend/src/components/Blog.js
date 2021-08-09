@@ -5,7 +5,6 @@ import { like, removeBlog } from '../reducers/blogsReducer'
 import { useDispatch } from 'react-redux'
 
 const Blog = ({ blog }) => {
-// const Blog = ({ blog, setBlogs }) => {
   const [visible, setVisible] = useState(false)
 
   const dispatch = useDispatch()
@@ -31,10 +30,7 @@ const Blog = ({ blog }) => {
   const removePost = async () => {
     const result = window.confirm(`remove blog '${blog.title}' by ${blog.author}`)
     if (result) {
-      // await blogsService.remove(blog)
       dispatch(removeBlog(blog))
-      // const blogs = await blogsService.getAll()
-      // setBlogs(blogs)
     }
   }
 
