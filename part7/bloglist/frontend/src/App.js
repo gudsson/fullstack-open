@@ -2,10 +2,15 @@ import React, { useEffect } from 'react'
 import Blogs from './components/Blogs'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
+import Logout from './components/Logout'
+import Users from './components/Users'
 import blogsService from './services/blogs'
 import { initializeBlogs } from './reducers/blogsReducer'
 import { useSelector, useDispatch } from 'react-redux'
-
+import {
+  BrowserRouter as Router,
+  Switch, Route
+} from 'react-router-dom'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -18,11 +23,19 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <div>
+    <Router>
       <Notification />
-      <LoginForm />
-      <Blogs />
-    </div>
+      <Switch>
+        <Route path="/users">
+          <Users />
+        </Route>
+        <Route path="/">
+          <LoginForm />
+          <Logout />
+          <Blogs />
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 

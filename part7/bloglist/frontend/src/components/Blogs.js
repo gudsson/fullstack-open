@@ -1,11 +1,10 @@
 import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
 import Blog from './Blog'
-import Logout from './Logout'
 import NewBlog from './NewBlog'
 import Togglable from './Togglable'
 
-const Blogs = ({ user, setUser }) => {
+const Blogs = ({ user }) => {
   const blogFormRef = useRef()
 
   const blogs = useSelector(state => state.blogs)
@@ -15,8 +14,6 @@ const Blogs = ({ user, setUser }) => {
 
   return (
     <div className='blogs'>
-      <h2>blogs</h2>
-      <Logout user={user} setUser={setUser} />
 
       <Togglable buttonLabel='create new blog' ref={blogFormRef}>
         <NewBlog
