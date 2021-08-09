@@ -10,12 +10,12 @@ const Logout = () => {
   const history = useHistory()
   const token = useSelector(state => state.login.token)
 
-  const username = useSelector(state => state.login.username)
+  const user = useSelector(state => state.login)
 
   const logout = (event) => {
     event.preventDefault()
     dispatch(logoutUser())
-    dispatch(setNotification(`${username} successfully logged out`, 'success', 5))
+    dispatch(setNotification(`${user.username} successfully logged out`, 'success', 5))
     history.push('/')
   }
 
@@ -24,7 +24,7 @@ const Logout = () => {
   return (
     <div>
       <Title />
-      <p>{username} logged in</p>
+      <p>{user.name} logged in</p>
       <button onClick={logout}>logout</button>
     </div>
   )
