@@ -1,14 +1,21 @@
 import React from 'react'
+import { logoutUser } from '../reducers/loginReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { setNotification } from '../reducers/notificationReducer'
 
-const Logout = ({ user, setUser }) => {
+const Logout = () => {
+  const dispatch = useDispatch()
+
+  const username = useSelector(state => state.login.username)
+
   const logout = (event) => {
     event.preventDefault()
-    window.localStorage.removeItem('loggedBlogAppUser')
-    setUser(null)
+    dispatch(logoutUser())
+    dispatch(setNotification(`${username} successfully logged out`, 'success', 5))
   }
 
   return (
-    <p>{user.name} <button onClick={logout}>logout</button></p>
+    <p>{username} <button onClick={logout}>logout</button></p>
   )
 }
 

@@ -1,14 +1,15 @@
-import PropTypes from 'prop-types'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import loginService from '../services/login'
 import blogsService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
+import { loginUser } from '../reducers/loginReducer'
 
-const LoginForm = ({ user, setUser }) => {
+const LoginForm = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
+  const token = useSelector(state => state.login.token)
   const dispatch = useDispatch()
 
   const handleLogin = async (event) => {
@@ -18,15 +19,12 @@ const LoginForm = ({ user, setUser }) => {
         username, password,
       })
 
-      window.localStorage.setItem(
-        'loggedBlogAppUser', JSON.stringify(user)
-      )
-
       blogsService.setToken(user.token)
-      setUser(user)
+      dispatch(loginUser(user))
+      dispatch(setNotification(`${user.name} successfully logged in`, 'success', 5))
+
       setUsername('')
       setPassword('')
-      dispatch(setNotification(`${user.name} successfully logged in`, 'success', 5))
     } catch (exception) {
 
       dispatch(setNotification('Login failed: wrong credentials', 'failure', 5))
@@ -34,7 +32,7 @@ const LoginForm = ({ user, setUser }) => {
     console.log('logging in with', username, password)
   }
 
-  if (user !== null) return <></>
+  if (token) return <></>
 
   return (
     <div className="formDiv">
@@ -64,10 +62,6 @@ const LoginForm = ({ user, setUser }) => {
       </form>
     </div>
   )
-}
-
-LoginForm.propTypes = {
-  setUser: PropTypes.func.isRequired
 }
 
 export default LoginForm

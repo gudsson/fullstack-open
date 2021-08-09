@@ -8,15 +8,15 @@ const notificationReducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
   switch (action.type) {
-  case 'SET_NOTICE':
-    clearTimeout(state.timerId)
-    return { ...action.data }
-  case 'RECORD_TIMER':
-    return { ...state, timerId: action.data }
-  case 'REMOVE_NOTICE':
-    return initialState
-  default:
-    return state
+    case 'SET_NOTICE':
+      clearTimeout(state.timerId)
+      return { ...action.data }
+    case 'RECORD_TIMER':
+      return { ...state, timerId: action.data }
+    case 'REMOVE_NOTICE':
+      return initialState
+    default:
+      return state
   }
 }
 

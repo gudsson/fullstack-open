@@ -4,23 +4,22 @@ import { setNotification } from './notificationReducer'
 const blogsReducer = (state = [], action) => {
   console.log('state now: ', state)
   console.log('action', action)
-  console.log(action.type)
   switch (action.type) {
-  case 'NEW_BLOG':
-    return [...state, action.data]
-  case 'REMOVE_BLOG':
-    return [...state].filter(blog => blog.id !== action.data)
-  case 'INCREMENT_LIKES': {
-    const blogIdx = state.findIndex(a => a.id === action.data.id)
-    const newObject = { ...state[blogIdx], likes: state[blogIdx].likes + 1 }
-    const newState = [...state]
-    newState[blogIdx] = newObject
-    return newState
-  }
-  case 'INIT_BLOGS':
-    return action.data
-  default:
-    return state
+    case 'NEW_BLOG':
+      return [...state, action.data]
+    case 'REMOVE_BLOG':
+      return [...state].filter(blog => blog.id !== action.data)
+    case 'INCREMENT_LIKES': {
+      const blogIdx = state.findIndex(a => a.id === action.data.id)
+      const newObject = { ...state[blogIdx], likes: state[blogIdx].likes + 1 }
+      const newState = [...state]
+      newState[blogIdx] = newObject
+      return newState
+    }
+    case 'INIT_BLOGS':
+      return action.data
+    default:
+      return state
   }
 }
 

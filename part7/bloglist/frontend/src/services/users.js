@@ -6,8 +6,7 @@ const getUser = async id => {
   return request.then(response => response.data)
 }
 
-
-const usersService = { 
+const usersService = {
   getUser
 }
 

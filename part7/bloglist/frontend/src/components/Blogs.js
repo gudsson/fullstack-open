@@ -9,8 +9,9 @@ const Blogs = ({ user, setUser }) => {
   const blogFormRef = useRef()
 
   const blogs = useSelector(state => state.blogs)
+  const token = useSelector(state => state.login.token)
 
-  if (!user) return <></>
+  if (!token) return <></>
 
   return (
     <div className='blogs'>
