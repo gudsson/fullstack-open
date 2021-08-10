@@ -13,8 +13,6 @@ const NewBlog = ({ blogFormRef }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log('user')
-    console.log(user)
 
     try {
       let blog = {

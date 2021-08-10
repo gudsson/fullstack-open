@@ -43,12 +43,19 @@ const update = (id, newObject) => {
   return request.then(response => response.data)
 }
 
+const addComment = (commentObj) => {
+  const { blogId, ...newObject } = commentObj
+  const request = axios.put(`${ baseUrl }/${blogId}/comments`, newObject)
+  return request.then(response => response.data)
+}
+
 const blogsService = {
   getOne,
   getAll,
   create,
   update,
   remove,
+  addComment,
   setToken
 }
 

@@ -16,6 +16,14 @@ const blogsReducer = (state = [], action) => {
       newState[blogIdx] = newObject
       return newState
     }
+    case 'ADD_COMMENT': {
+      const blogIdx = state.findIndex(a => a.id === action.data.blogId)
+      const newObject = { ...state[blogIdx] }
+      newObject.comments.push({ content: action.data.content, user: action.data.user })
+      const newState = [...state]
+      newState[blogIdx] = newObject
+      return newState
+    }
     case 'INIT_BLOGS':
       return action.data
     default:
@@ -44,6 +52,16 @@ export const createBlog = (blog) => {
   }
 }
 
+export const addComment = (commentObj) => {
+  return async dispatch => {
+    await blogsService.addComment(commentObj)
+    dispatch({
+      type: 'ADD_COMMENT',
+      data: { ...commentObj }
+    })
+  }
+}
+
 export const removeBlog = (blog) => {
   return async dispatch => {
     await blogsService.remove(blog)
@@ -54,7 +72,6 @@ export const removeBlog = (blog) => {
     dispatch(setNotification(`removed '${blog.title}' by ${blog.author}`, 'failure', 5))
   }
 }
-
 
 export const like = (id) => {
   return {
