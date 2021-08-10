@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import blogsService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
 import { like } from '../reducers/blogsReducer'
+import Comments from './Comments'
 
 const BlogView = () => {
   const blogId = useParams().id
@@ -12,9 +13,6 @@ const BlogView = () => {
     return state.blogs.filter(blog => blog.id === blogId)[0]
   })
   const dispatch = useDispatch()
-
-
-  console.log(blog)
 
   const addLike = async () => {
     await blogsService.update(blog.id, { likes: blog.likes + 1 })
@@ -28,6 +26,7 @@ const BlogView = () => {
       <Link to={blog.url}>{blog.url}</Link>
       <p>{blog.likes} likes <button className='like-btn' onClick={addLike}>like</button></p>
       <p>added by {blog.user.name}</p>
+      <Comments />
     </div>
   )
 }
