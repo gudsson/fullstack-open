@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import Blogs from './components/Blogs'
+import BlogView from './components/BlogView'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
 import Logout from './components/Logout'
@@ -33,6 +34,9 @@ const App = () => {
         </Route>
         <Route path="/users">
           <Users />
+        </Route>
+        <Route path="/blogs/:id">
+          <BlogView />
         </Route>
         <Route path="/">
           <LoginForm />

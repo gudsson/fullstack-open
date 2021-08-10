@@ -4,6 +4,7 @@ import Blog from './Blog'
 import NewBlog from './NewBlog'
 import Togglable from './Togglable'
 
+
 const Blogs = () => {
   const blogFormRef = useRef()
 

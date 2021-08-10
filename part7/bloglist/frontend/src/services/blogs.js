@@ -7,6 +7,11 @@ const setToken = newToken => {
   token = `bearer ${newToken}`
 }
 
+const getOne = (id) => {
+  const request = axios.get(`${baseUrl}/${id}`)
+  return request.then(response => response.data)
+}
+
 const getAll = () => {
   const request = axios.get(baseUrl)
   return request.then(response => response.data)
@@ -39,6 +44,7 @@ const update = (id, newObject) => {
 }
 
 const blogsService = {
+  getOne,
   getAll,
   create,
   update,
