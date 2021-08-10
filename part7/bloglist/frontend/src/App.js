@@ -25,25 +25,27 @@ const App = () => {
   }, [dispatch])
 
   return (
-    <Router>
-      <Nav />
-      <Notification />
-      <Switch>
-        <Route path="/users/:id">
-          <User />
-        </Route>
-        <Route path="/users">
-          <Users />
-        </Route>
-        <Route path="/blogs/:id">
-          <BlogView />
-        </Route>
-        <Route path="/">
-          <LoginForm />
-          <Blogs />
-        </Route>
-      </Switch>
-    </Router>
+    <div className="container">
+      <Router>
+        <Nav />
+        <Notification />
+        <Switch>
+          <Route path="/users/:id">
+            <User />
+          </Route>
+          <Route path="/users">
+            <Users />
+          </Route>
+          <Route path="/blogs/:id">
+            <BlogView />
+          </Route>
+          <Route path="/">
+            <LoginForm />
+            <Blogs />
+          </Route>
+        </Switch>
+      </Router>
+    </div>
   )
 }
 

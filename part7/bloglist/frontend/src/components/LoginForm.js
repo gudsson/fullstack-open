@@ -4,6 +4,7 @@ import loginService from '../services/login'
 import blogsService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
 import { loginUser } from '../reducers/loginReducer'
+import { Form, Button } from 'react-bootstrap'
 
 const LoginForm = () => {
   const [username, setUsername] = useState('')
@@ -35,31 +36,29 @@ const LoginForm = () => {
   if (token) return <></>
 
   return (
-    <div className="formDiv">
+    <div>
       <h2>login to application</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
+      <Form onSubmit={handleLogin}>
+        <Form.Group>
+          <Form.Label>username:</Form.Label>
+          <Form.Control
             id='username'
             type="text"
             value={username}
             name="Username"
             onChange={({ target }) => setUsername(target.value)}
           />
-        </div>
-        <div>
-          password
-          <input
+          <Form.Label>password:</Form.Label>
+          <Form.Control
             id='password'
             type="password"
             value={password}
             name="Password"
             onChange={({ target }) => setPassword(target.value)}
           />
-        </div>
-        <button id='login-btn' type="submit">login</button>
-      </form>
+          <Button id='login-btn' type="submit">login</Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 }
