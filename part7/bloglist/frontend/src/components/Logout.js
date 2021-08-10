@@ -3,7 +3,7 @@ import { logoutUser } from '../reducers/loginReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { useHistory } from 'react-router-dom'
-import Title from './Title'
+
 
 const Logout = () => {
   const dispatch = useDispatch()
@@ -22,11 +22,9 @@ const Logout = () => {
   if (!token) return <></>
 
   return (
-    <div>
-      <Title />
-      <p>{user.name} logged in</p>
-      <button onClick={logout}>logout</button>
-    </div>
+    <span>
+      {user.name} logged in <button onClick={logout}>logout</button>
+    </span>
   )
 }
 

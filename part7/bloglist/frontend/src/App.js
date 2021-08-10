@@ -3,9 +3,9 @@ import Blogs from './components/Blogs'
 import BlogView from './components/BlogView'
 import Notification from './components/Notification'
 import LoginForm from './components/LoginForm'
-import Logout from './components/Logout'
 import Users from './components/Users'
 import User from './components/User'
+import Nav from './components/Nav'
 import blogsService from './services/blogs'
 import { initializeBlogs } from './reducers/blogsReducer'
 import { useSelector, useDispatch } from 'react-redux'
@@ -26,8 +26,8 @@ const App = () => {
 
   return (
     <Router>
+      <Nav />
       <Notification />
-      <Logout />
       <Switch>
         <Route path="/users/:id">
           <User />
