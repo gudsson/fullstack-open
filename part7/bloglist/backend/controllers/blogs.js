@@ -1,6 +1,7 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
+const Comment = require('../models/comment')
 const jwt = require('jsonwebtoken')
 
 const userVerification = async (request, response) => {
@@ -19,6 +20,13 @@ blogsRouter.get('/', async (request, response) => {
 
   response.json(blogs.map(blog => blog.toJSON()))
 })
+
+blogsRouter.get('/:id', async (request, response) => {
+  const blog = await Blog
+    .findById(request.params.id)
+
+  response.json(blog.toJSON())
+})
   
 blogsRouter.post('/', async (request, response) => {
   const body = request.body
@@ -30,7 +38,8 @@ blogsRouter.post('/', async (request, response) => {
     author: body.author === undefined ? user.username : body.author,
     url: body.url,
     likes: body.likes === undefined ? 0 : body.likes,
-    user: user._id
+    user: user._id,
+    comments: []
   })
   
   const savedBlog = await blog.save()
@@ -61,6 +70,20 @@ blogsRouter.put('/:id', async (request, response) => {
   if (!user) return response.status(401).json({ error: 'token missing or invalid' })
 
   let updatedBlog = await Blog.findByIdAndUpdate(request.params.id, request.body, { new: true })
+  response.json(updatedBlog.toJSON())
+})
+
+blogsRouter.put('/:id/comments', async (request, response) => {
+  const body = request.body
+  const user = await userVerification(request, response)
+  if (!user) return response.status(401).json({ error: 'token missing or invalid' })
+
+  const comment = new Comment({
+    content: body.content,
+    user: body.user
+  })
+
+  let updatedBlog = await Blog.findByIdAndUpdate(request.params.id, {$push: {'comments': comment}}, { new: true })
   response.json(updatedBlog.toJSON())
 })
 
